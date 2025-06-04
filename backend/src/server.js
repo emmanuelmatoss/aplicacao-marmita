@@ -1,8 +1,9 @@
 // 1. Importando os pacotes necessários
 const express = require('express');
 const cors = require('cors');
-const { PrismaClient } = require('@prisma/client'); // Importa o Prisma Client
-const bcrypt = require('bcrypt'); // Importa o bcrypt
+const { PrismaClient } = require('@prisma/client');
+const bcrypt = require('bcrypt');
+const authMiddleware = require('./middlewares/authMiddleware');
 
 // 2. Inicializando a aplicação Express e o Prisma
 const app = express();
@@ -104,6 +105,37 @@ app.post('/login', async (req,res) => {
   } catch (error) {
     console.error(error);
     res.status(500).json({ error: 'Não foi possível fazer o login.'});
+  }
+});
+
+// 4.4 Rota Middleware
+app.get('/profile', authMiddleware, async (req, res) => {
+  try {
+    const userFromDb = await prisma.user.findUnique({
+      where: { id: req.user.userId },
+      select: {
+        id: true,
+        name: true,
+        email: true,
+        role: true,
+        companyId: true,
+        createdAt: true,
+      }
+    });
+
+    if (!userFromDb) {
+      return res.status(404).json({ error: 'Usuário do token não encontrado no banco.'});
+    }
+
+    res.status(200).json({
+      message: 'Você está acessando uma rota protegida!',
+      userFromToken: req.user,
+      userDetails: userFromDb
+    });
+
+  } catch (error) {
+    console.error("Erro ao buscar usuário do perfil:", error);
+    res.status(500).json({ error: 'Erro ao buscar informações do perfil.' });
   }
 });
 

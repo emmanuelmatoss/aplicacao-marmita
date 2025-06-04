@@ -167,8 +167,6 @@ Retorna informações do usuário autenticado. Requer um Token JWT no cabeçalho
     }
     ```
 
-*(Adicione aqui os outros endpoints conforme for desenvolvendo)*
-
 ## :construction_worker: Autor
 
 * **EMMANUEL DE MATOS AURÉLIO**
