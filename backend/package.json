@@ -1,0 +1,25 @@
+{
+  "name": "backend",
+  "version": "1.0.0",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "dev": "nodemon src/server.js"
+  },
+  "keywords": [],
+  "author": "Emmanuel de Matos Aurelio <emmanuel.matos@gmail.com> (https://github.com/emmanuelmatoss",
+  "license": "ISC",
+  "description": "Backend do sistema de pedidos de marmitas, desenvolvido com Node.js, Express e Prisma para gerenciar clientes e pedidos semanais.",
+  "devDependencies": {
+    "@prisma/client": "^6.8.2",
+    "nodemon": "^3.1.10",
+    "prisma": "^6.8.2"
+  },
+  "dependencies": {
+    "bcrypt": "^6.0.0",
+    "cors": "^2.8.5",
+    "dotenv": "^16.5.0",
+    "express": "^5.1.0",
+    "jsonwebtoken": "^9.0.2"
+  }
+}

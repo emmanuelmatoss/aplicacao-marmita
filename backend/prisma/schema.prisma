@@ -1,0 +1,55 @@
+// Este é o seu arquivo de schema do Prisma.
+// Saiba mais em https://pris.ly/d/prisma-schema
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL") // Pega a URL do arquivo .env
+}
+
+// Modelo para as empresas (construtoras)
+model Company {
+  id    String @id @default(cuid()) // Chave primária
+  name  String @unique
+  users User[] // Uma empresa pode ter vários usuários
+}
+
+// Modelo para os usuários (funcionários e admin)
+model User {
+  id           String   @id @default(cuid())
+  email        String   @unique
+  name         String
+  passwordHash String // Nunca guarde a senha pura!
+  role         String   @default("FUNCIONARIO") // Ex: FUNCIONARIO, ADMIN
+  createdAt    DateTime @default(now())
+
+  companyId String
+  company   Company  @relation(fields: [companyId], references: [id])
+
+  orders Order[]
+}
+
+// Modelo para os pratos disponíveis
+model Dish {
+  id          String @id @default(cuid())
+  name        String @unique
+  description String? // O '?' torna o campo opcional
+  category    String  // Ex: CARBOIDRATO, PROTEINA, SALADA
+  orders Order[]
+}
+
+// Modelo para os pedidos da semana
+model Order {
+  id        String   @id @default(cuid())
+  createdAt DateTime @default(now())
+  weekDate  DateTime // Data de início da semana do pedido
+
+  userId String
+  user   User   @relation(fields: [userId], references: [id])
+
+  // Relacionamento muitos-para-muitos entre Pedidos e Pratos
+  dishes Dish[]
+}

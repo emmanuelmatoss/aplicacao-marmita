@@ -1,0 +1,13 @@
+# Node.js
+backend/node_modules/
+frontend/node_modules/ # Se você usar Node.js no frontend no futuro
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+        
+# Arquivo de variáveis de ambiente (contém segredos!)
+backend/.env
+        
+# Arquivos de sistema operacional
+.DS_Store
+Thumbs.db
